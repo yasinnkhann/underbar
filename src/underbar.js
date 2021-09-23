@@ -175,7 +175,7 @@
   // until the second element, with the first element as its second argument.
   //
   // Since JavaScript object properties are not stored in any particular order,
-  // we cannot reliably anticpate what property will be accessed first during
+  // we cannot reliably anticipate what property will be accessed first during
   // property iteration. Given this, it is not necessary for your solution
   // to be able to handle the case of an object being passed in with no
   // initial accumulator.
@@ -191,9 +191,46 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    // TIP: To support both arrays and objects, try re-using each() here
+    var isAccFirstNum = false;
+
+    if (accumulator === undefined) {
+      isAccFirstNum = true;
+    }
+
+    _.each(collection, function(elem) {
+      if (isAccFirstNum === true) {
+        accumulator = elem;
+        isAccFirstNum = false;
+      } else {
+        accumulator = iterator(accumulator, elem);
+      }
+    });
+    return accumulator;
   };
 
+  // _.reduce = function(collection, iterator, accumulator) {
+  //   // TIP: To support both arrays and objects, try re-using each() here
+  //   if (accumulator === undefined) {
+  //     accumulator = collection[0];
+  //     iterator(accumulator, collection[1]);
+  //   }
+
+  //   _.each(collection, function(val) {
+  //     iterator(accumulator, val);
+  //   }
+  //   );
+  //   return accumulator;
+  // };
+
+  // Memo is the initial state of the reduction, and each successive step
+  // of it should be returned by iteratee. The iteratee is passed four
+  // arguments: the memo, then the value and index (or key) of the iteration,
+  //  and finally a reference to the entire list.
+
+  // If no memo is passed to the initial invocation of reduce, the iteratee
+  // is not invoked on the first element of the list. The first element is
+  //  instead passed as the memo in the invocation of the iteratee on the next
+  //   element in the list.
 
   // --------------------
   // ! END OF PART ONE !
