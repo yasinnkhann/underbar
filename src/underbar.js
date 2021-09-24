@@ -6,6 +6,7 @@
   // Returns whatever value is passed as the argument. This function doesn't
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
+
   _.identity = function(val) {
     return val;
   };
@@ -31,12 +32,14 @@
 
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
+
   _.first = function(array, n) {
     return n === undefined ? array[0] : array.slice(0, n);
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
+
   _.last = function(array, n) {
     if (n > array.length) {
       return array;
@@ -49,6 +52,7 @@
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
+
   _.each = function(collection, iterator) {
     if (Array.isArray(collection)) {
       for (var i = 0; i < collection .length; i++) {
@@ -64,6 +68,7 @@
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
+
   _.indexOf = function(array, target) {
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
@@ -80,6 +85,7 @@
   };
 
   // Return all elements of an array that pass a truth test.
+
   _.filter = function(collection, test) {
     var result = [];
     if (Array.isArray(collection)) {
@@ -93,6 +99,7 @@
   };
 
   // Return all elements of an array that don't pass a truth test.
+
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
@@ -102,6 +109,7 @@
   };
 
   // Produce a duplicate-free version of the array.
+
   _.uniq = function(array, isSorted, iterator) {
     var result = [];
     var seenTransformedValues = [];
@@ -128,6 +136,7 @@
   };
 
   // Return the results of applying an iterator to each element.
+
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
@@ -155,6 +164,7 @@
   // Takes an array of objects and returns and array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
+
   _.pluck = function(collection, key) {
     // TIP: map is really handy when you want to transform an array of
     // values into a new array of values. _.pluck() is solved for you
@@ -325,11 +335,19 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
+
   _.extend = function(obj) {
+    for (var i = 0; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        obj[key] = arguments[i][key];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
+
   _.defaults = function(obj) {
   };
 
