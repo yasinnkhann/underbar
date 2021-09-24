@@ -190,37 +190,6 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
-  _.reduce = function(collection, iterator, accumulator) {
-    var isAccFirstNum = false;
-
-    if (accumulator === undefined) {
-      isAccFirstNum = true;
-    }
-
-    _.each(collection, function(elem) {
-      if (isAccFirstNum === true) {
-        accumulator = elem;
-        isAccFirstNum = false;
-      } else {
-        accumulator = iterator(accumulator, elem);
-      }
-    });
-    return accumulator;
-  };
-
-  // _.reduce = function(collection, iterator, accumulator) {
-  //   // TIP: To support both arrays and objects, try re-using each() here
-  //   if (accumulator === undefined) {
-  //     accumulator = collection[0];
-  //     iterator(accumulator, collection[1]);
-  //   }
-
-  //   _.each(collection, function(val) {
-  //     iterator(accumulator, val);
-  //   }
-  //   );
-  //   return accumulator;
-  // };
 
   // Memo is the initial state of the reduction, and each successive step
   // of it should be returned by iteratee. The iteratee is passed four
@@ -231,6 +200,35 @@
   // is not invoked on the first element of the list. The first element is
   //  instead passed as the memo in the invocation of the iteratee on the next
   //   element in the list.
+
+  _.reduce = function(collection, iterator, accumulator) {
+    _.each(collection, function(val, idx) {
+      if (accumulator === undefined && idx === 0) {
+        accumulator = val;
+      } else {
+        accumulator = iterator(accumulator, val, idx, collection);
+      }
+    });
+    return accumulator;
+  };
+
+  // _.reduce = function(collection, iterator, accumulator) {
+  //   var isAccFirstNum = false;
+
+  //   if (accumulator === undefined) {
+  //     isAccFirstNum = true;
+  //   }
+
+  //   _.each(collection, function(elem) {
+  //     if (isAccFirstNum === true) {
+  //       accumulator = elem;
+  //       isAccFirstNum = false;
+  //     } else {
+  //       accumulator = iterator(accumulator, elem);
+  //     }
+  //   });
+  //   return accumulator;
+  // };
 
   // --------------------
   // ! END OF PART ONE !
@@ -251,6 +249,7 @@
 
 
   // Determine if the array or object contains a given value (using `===`).
+
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
@@ -264,16 +263,49 @@
 
 
   // Determine whether all of the elements match a truth test.
+
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+    iterator = iterator || _.identity;
+
+    return _.reduce(collection, function(acc, val) {
+      if (!iterator(val)) {
+        return false;
+      } else {
+        return acc;
+      }
+    }, true);
   };
+
+  // _.every = function(collection, iterator) {
+  //   // TIP: Try re-using reduce() here.
+  //   iterator = iterator || _.identity;
+  //   return _.reduce(collection, function(acc, elem) {
+  //     return acc && Boolean(iterator(elem));
+  //   }, true);
+  // };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
+
   _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity;
+    return !_.every(collection, function(val) {
+      return !iterator(val);
+    });
   };
 
+  // _.some = function(collection, iterator) {
+  //   // TIP: There's a very clever way to re-use every() here.
+  //   iterator = iterator || _.identity;
+
+  //   return _.reduce(collection, function(acc, val) {
+  //     if (iterator(val)) {
+  //       return true;
+  //     } else {
+  //       return acc;
+  //     }
+  //   }, false);
+  // };
 
   /**
    * OBJECTS
