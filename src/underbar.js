@@ -349,6 +349,16 @@
   // exists in obj
 
   _.defaults = function(obj) {
+    for (var i = 0; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        if (obj.hasOwnProperty(key)) {
+          continue;
+        } else {
+          obj[key] = arguments[i][key];
+        }
+      }
+    }
+    return obj;
   };
 
 
