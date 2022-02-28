@@ -439,14 +439,28 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
 
-  _.shuffle = function(array) {
-    var result = [];
-    var randomIdx = Math.floor(Math.random() * array.length);
-    for (var i = 0; i < array.length; i++) {
-      result.splice(randomIdx, 0, array[i]);
+  _.shuffle = function (array) {
+    var copyArr = array.slice();
+    var temp;
+
+    for (var i = 0; i < copyArr.length; i++) {
+      var randIdx = Math.floor(Math.random() * array.length);
+      temp = copyArr[i];
+      copyArr[i] = copyArr[randIdx];
+      copyArr[randIdx] = temp;
     }
-    return result;
+    return copyArr;
   };
+
+  // fails rarely
+  // _.shuffle = function(array) {
+  //   var result = [];
+  //   var randomIdx = Math.floor(Math.random() * array.length);
+  //   for (var i = 0; i < array.length; i++) {
+  //     result.splice(randomIdx, 0, array[i]);
+  //   }
+  //   return result;
+  // };
 
 /**
    * ADVANCED: EXTRA CREDIT BEGINS HERE
