@@ -5,3 +5,4 @@
 **/spec
 **/vendor
 **/*.min.js
+SpecRunner.html
